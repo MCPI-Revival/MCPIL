@@ -4,7 +4,7 @@
 #  mcpil.py
 #  
 #  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
-#  Copyright 2020 StealthHydrac
+#  Copyright 2020 StealthHydrac/StealthHydra179
 #  Copyright 2020 JumpeR6790
 #  
 #  This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 #  
 
 import signal
+
 
 from os import kill, getpid
 
@@ -97,6 +98,8 @@ def on_select_versions(event):
 		description_text["text"] = descriptions[current_selection];
 	except IndexError:
 		pass;
+	except Exception, err:
+		return "Critical error {}".format(err);
 	return 0;
 
 '''
