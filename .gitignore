@@ -11,3 +11,6 @@ __pycache__/
 # Debian
 mcpil_*-*.deb
 deb/
+
+# PyCharm
+.idea/
