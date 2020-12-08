@@ -1,13 +1,14 @@
 import subprocess
 import os
+from typing import Dict
 
 # Feature Parse Failure
 def _parse_fail():
     raise Exception('Unable To Parse Features')
 
 # Get All Available MCPI-Docker Features
-def _get_features() -> dict:
-    out: dict = {}
+def _get_features() -> Dict[str, bool]:
+    out: Dict[str, bool] = {}
 
     # Block X11 If Using Older MCPi-Docker
     env = os.environ.copy()
