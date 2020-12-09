@@ -98,7 +98,7 @@ def on_select_versions(event):
 		description_text["text"] = descriptions[current_selection];
 	except IndexError:
 		pass;
-	except Exception, err:
+	except Exception as err:
 		return "Critical error {}".format(err);
 	return 0;
 
