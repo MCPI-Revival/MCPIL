@@ -29,14 +29,18 @@ from typing import Dict
 
 import launcher
 
-from os import kill, getpid
+from os import kill, killpg, getpid, getpgid
+import platform
 
 from subprocess import Popen
 
 from tkinter import *
 from tkinter import ttk
+from tkinter.messagebox import showerror
 from tkinter import simpledialog
 from tkinter.filedialog import askopenfilename
+
+import webbrowser
 
 '''
     Global variables.
@@ -126,7 +130,7 @@ def pre_launch():
 def bye():
     global current_process
     if current_process is not None and current_process.poll() is None:
-        kill(current_process.pid, signal.SIGTERM)
+        killpg(getpgid(current_process.pid), signal.SIGTERM)
 
     window.destroy()
     kill(getpid(), signal.SIGTERM)
@@ -187,7 +191,6 @@ def play_tab(parent):
     launch_frame.pack(fill=BOTH, expand=True)
     return tab
 
-
 def about_tab(parent):
     tab = Frame(parent)
 
@@ -209,8 +212,11 @@ def about_tab(parent):
     url.pack()
     return tab
 
-
 def main(args):
+    if platform.system() != 'Linux':
+        showerror('Error', 'Linux Is Required')
+        return 1
+
     global window
 
     window = Tk()
