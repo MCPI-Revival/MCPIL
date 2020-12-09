@@ -58,6 +58,7 @@ description_text: Label
 
 current_username: StringVar
 current_features = []
+feature_widgets: Dict[str, ttk.Checkbutton] = {}
 
 current_process: Popen = None
 
@@ -87,6 +88,33 @@ class HyperLink(Label):
 
     def web_open(self, event):
         return webbrowser.open(self.url)
+
+class ScrollableFrame(Frame):
+    def __init__(self, root):
+        Frame.__init__(self, root)
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.canvas = Canvas(self)
+        scrollbar = ttk.Scrollbar(self, orient='vertical', command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+
+        scrollbar.grid(row=0, column=1, sticky='NSE')
+        self.canvas.grid(row=0, column=0, sticky='NSEW')
+
+        self.scrollable_frame = ttk.Frame(self.canvas)
+        scrollable_frame_id = self.canvas.create_window(0, 0, window=self.scrollable_frame, anchor='nw')
+
+        def configure_scrollable_frame(event):
+            self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+        self.scrollable_frame.bind('<Configure>', configure_scrollable_frame)
+
+        def configure_canvas(event):
+            self.canvas.itemconfig(scrollable_frame_id, width=event.width)
+
+        self.canvas.bind('<Configure>', configure_canvas)
 
 '''
     Helper functions and back-end.
@@ -139,16 +167,31 @@ def bye():
     kill(getpid(), signal.SIGTERM)
     return 0
 
+# Save/Load Config
 def load():
-    global current_config, current_username, current_features
+    global current_config, current_username, current_features, feature_widgets
     current_config = config.load()
     current_username.set(current_config['general']['username'])
-    current_features = current_config['general']['current-features'].copy()
+    current_features = current_config['general']['custom-features'].copy()
+    for key in feature_widgets:
+        feature_widgets[key].state(['!alternate'])
+        if key in current_features:
+            feature_widgets[key].state(['selected'])
+        else:
+            feature_widgets[key].state(['!selected'])
 def save():
     global current_config, current_username, current_features
     current_config['general']['username'] = current_username.get()
     current_config['general']['custom-features'] = current_features.copy()
     config.save(current_config)
+
+# Update Features From Widgets
+def update_features():
+    global current_features, feature_widgets
+    current_features = []
+    for key in feature_widgets:
+        if feature_widgets[key].instate(['selected']):
+            current_features.append(key)
 
 '''
     Event handlers.
@@ -226,9 +269,40 @@ def settings_tab(parent):
     username_label.grid(row=0, column=0, padx=6, pady=6, sticky='W')
     current_username = StringVar(main_frame)
     username = Entry(main_frame, width=24, textvariable=current_username)
-    username.grid(row=0, column=1, padx=5, pady=5, sticky='EW')
+    username.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
 
     main_frame.grid(row=0, sticky='NEW')
+
+    save_frame = Frame(tab)
+    save_button = Button(save_frame, text='Save', command=save)
+    save_button.pack(side=RIGHT, anchor=S)
+    save_frame.grid(row=1, sticky='SE')
+
+    return tab
+
+def features_tab(parent):
+    global feature_widgets
+
+    tab = Frame(parent)
+
+    tab.rowconfigure(0, weight=1)
+    tab.columnconfigure(0, weight=1)
+
+    main_frame = ScrollableFrame(tab)
+
+    main_frame.scrollable_frame.columnconfigure(1, weight=1)
+
+    row = 0
+    for key in launcher.AVAILABLE_FEATURES:
+        check = ttk.Checkbutton(main_frame.scrollable_frame, command=update_features)
+        check.grid(row=row, column=0, padx=6, pady=6, sticky='W')
+        feature_widgets[key] = check
+        label = Label(main_frame.scrollable_frame, text=key)
+        label.grid(row=row, column=1, padx=6, pady=6, sticky='W')
+
+        row += 1
+
+    main_frame.grid(row=0, sticky='NSEW')
 
     save_frame = Frame(tab)
     save_button = Button(save_frame, text='Save', command=save)
@@ -272,6 +346,7 @@ def main(args):
 
     tabs = ttk.Notebook(window)
     tabs.add(play_tab(tabs), text='Play')
+    tabs.add(features_tab(tabs), text='Features')
     tabs.add(settings_tab(tabs), text='Settings')
     tabs.add(about_tab(tabs), text='About')
     tabs.pack(fill=BOTH, expand=True)

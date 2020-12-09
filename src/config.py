@@ -2,6 +2,8 @@ import json
 
 from pathlib import Path
 
+import launcher
+
 def _get_config_path() -> str:
     return str(Path.home()) + '/.mcpil.json'
 
@@ -18,9 +20,12 @@ def load() -> dict:
     try:
         with open(_get_config_path(), 'r') as file:
             obj = json.load(file)
-    except json.JSONDecodeError as e:
+    except (FileNotFoundError, json.JSONDecodeError):
         obj = {}
     out = {'general': {'custom-features': [], 'username': 'StevePi'}, 'server': {'ip': '', 'port': ''}}
+    for key in launcher.AVAILABLE_FEATURES:
+        if launcher.AVAILABLE_FEATURES[key]:
+            out['general']['custom-features'].append(key)
     _copy(obj, out)
     return out
 
