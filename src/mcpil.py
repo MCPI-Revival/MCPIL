@@ -4,7 +4,7 @@
 #  mcpil.py
 #  
 #  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
-#  Copyright 2020 StealthHydrac
+#  Copyright 2020 StealthHydrac/StealthHydra179/a1ma
 #  Copyright 2020 JumpeR6790
 #  
 #  This program is free software; you can redistribute it and/or modify
@@ -137,13 +137,15 @@ def bye():
 '''
 
 def on_select_versions(event):
-    global current_selection
-    try:
-        current_selection = event.widget.curselection()[0]
-        description_text["text"] = descriptions[current_selection]
-    except IndexError:
-        pass
-    return 0
+	global current_selection
+	try:
+		current_selection = event.widget.curselection()[0]
+		description_text["text"] = descriptions[current_selection]
+	except IndexError:
+		pass
+	except Exception as err:
+		return "Critical error {}".format(err)
+	return 0
 
 '''
     Tabs.
