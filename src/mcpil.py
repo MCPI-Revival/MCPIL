@@ -222,7 +222,7 @@ def main(args):
     window = Tk()
     window.title("MCPI Laucher - Rebooted")
     window.geometry("512x400")
-    window.resizable(False, False)
+    window.resizable(True, True)
 
     tabs = ttk.Notebook(window)
     tabs.add(play_tab(tabs), text="Play")
