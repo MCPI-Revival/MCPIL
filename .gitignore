@@ -13,4 +13,5 @@ mcpil_*-*.deb
 deb/
 
 # PyCharm
-.idea/
+.idea/*
+!.idea/codeStyles
