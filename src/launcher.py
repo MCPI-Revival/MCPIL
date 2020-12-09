@@ -70,9 +70,8 @@ AVAILABLE_FEATURES = _get_features()
 print('Loaded Available Features: ' + str(AVAILABLE_FEATURES))
 
 # Run MCPI-Docker
-def run(features: list, username: str):
+def run(features: list, username: str) -> subprocess.Popen:
     env = os.environ.copy()
     env['MCPI_FEATURES'] = '|'.join(features)
     env['MCPI_USERNAME'] = username
-    process = subprocess.run(['/usr/lib/minecraft-pi/run.sh'], env=env)
-    process.check_returncode()
+    return subprocess.Popen(['/usr/bin/minecraft-pi'], env=env)
