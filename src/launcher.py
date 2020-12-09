@@ -12,7 +12,8 @@ def _get_features() -> Dict[str, bool]:
 
     # Block X11 If Using Older MCPi-Docker
     env = os.environ.copy()
-    del env['DISPLAY']
+    if 'DISPLAY' in env:
+        del env['DISPLAY']
 
     result: subprocess.CompletedProcess = subprocess.run(['/usr/bin/minecraft-pi', '--print-features'], capture_output=True, text=True, env=env)
     result.check_returncode()
@@ -74,4 +75,4 @@ def run(features: list, username: str) -> subprocess.Popen:
     env = os.environ.copy()
     env['MCPI_FEATURES'] = '|'.join(features)
     env['MCPI_USERNAME'] = username
-    return subprocess.Popen(['/usr/bin/minecraft-pi'], env=env)
+    return subprocess.Popen(['/usr/bin/minecraft-pi'], env=env, preexec_fn=os.setsid)
