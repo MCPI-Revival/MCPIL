@@ -51,10 +51,12 @@ descriptions = [
     'Classic Miecraft Pi Edition. (Not Recommended)\nNo mods.',
     'Modded Miecraft Pi Edition.\nDefault MCPI-Docker mods without Touch GUI.',
     'Minecraft Pocket Edition. (Recommended)\nDefault MCPI-Docker mods.',
-    'Custom Profile.\nModify its settings in the Profile tab.',
+    'Custom Profile.\nModify its settings in the Features tab.',
 ]
 current_selection = 0
 description_text: Label
+
+launch_button: Button
 
 current_username: StringVar
 current_features = []
@@ -149,15 +151,22 @@ def get_features() -> list:
         # Custom (TODO)
         return current_features
 
+# Launch Minecraft
 def launch():
     global current_username, current_process
+    launch_button.config(state=DISABLED)
     if current_process is None or current_process.poll() is not None:
         current_process = launcher.run(get_features(), current_username.get())
     return 0
 
-def pre_launch():
-    return launch()
+# Update Launch Button
+def update_launch_button():
+    global launch_button
+    if (current_process is None or current_process.poll() is not None) and launch_button['state'] == DISABLED:
+        launch_button.config(state=NORMAL)
+    launch_button.after(10, update_launch_button)
 
+# Close MCPIL
 def bye():
     global current_process
     if current_process is not None and current_process.poll() is None:
@@ -213,7 +222,7 @@ def on_select_versions(event):
 '''
 
 def play_tab(parent):
-    global description_text
+    global description_text, launch_button
 
     tab = Frame(parent)
 
@@ -248,9 +257,12 @@ def play_tab(parent):
     versions_frame.grid(row=2, sticky='NSEW')
 
     launch_frame = Frame(tab)
-    launch_button = Button(launch_frame, text='Launch!', command=pre_launch)
+    launch_button = Button(launch_frame, text='Launch', command=launch)
     launch_button.pack(side=RIGHT, anchor=S)
     launch_frame.grid(row=3, sticky='SE')
+
+    launch_button.after(0, update_launch_button)
+
     return tab
 
 def settings_tab(parent):
