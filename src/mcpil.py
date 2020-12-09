@@ -148,7 +148,7 @@ def get_features() -> list:
         # Default Mods
         return features_dict_to_list(launcher.AVAILABLE_FEATURES.copy())
     elif current_selection == 3:
-        # Custom (TODO)
+        # Custom Features (Use Features Tab)
         return current_features
 
 # Launch Minecraft
