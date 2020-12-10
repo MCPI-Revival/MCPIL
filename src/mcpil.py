@@ -27,11 +27,14 @@ import signal
 
 from typing import Dict
 
+from proxy.proxy import Proxy
+
 import launcher
 import config
 
 from os import kill, killpg, getpid, getpgid
 import platform
+import threading
 
 from subprocess import Popen
 
@@ -65,6 +68,10 @@ feature_widgets: Dict[str, ttk.Checkbutton] = {}
 current_process: Popen = None
 
 current_config = {}
+
+proxy = Proxy()
+current_ip: StringVar
+current_port: StringVar
 
 '''
     Helper classes.
@@ -176,6 +183,18 @@ def bye():
     kill(getpid(), signal.SIGTERM)
     return 0
 
+# Start/Stop Proxy
+def update_proxy():
+    global proxy, current_ip, current_port
+    proxy.stop()
+    try:
+        proxy.set_option("src_addr", current_ip.get())
+        proxy.set_option("src_port", int(current_port.get()))
+        proxy_thread = threading.Thread(target=proxy.run)
+        proxy_thread.start()
+    except ValueError as e:
+        pass
+
 # Save/Load Config
 def load():
     global current_config, current_username, current_features, feature_widgets
@@ -188,10 +207,15 @@ def load():
             feature_widgets[key].state(['selected'])
         else:
             feature_widgets[key].state(['!selected'])
+    current_ip.set(current_config['server']['ip'])
+    current_port.set(current_config['server']['port'])
+    update_proxy()
 def save():
     global current_config, current_username, current_features
     current_config['general']['username'] = current_username.get()
     current_config['general']['custom-features'] = current_features.copy()
+    current_config['server']['ip'] = current_ip.get()
+    current_config['server']['port'] = current_port.get()
     config.save(current_config)
 
 # Update Features From Widgets
@@ -323,6 +347,41 @@ def features_tab(parent):
 
     return tab
 
+def multiplayer_tab(parent):
+    global current_ip, current_port
+
+    tab = Frame(parent)
+
+    tab.rowconfigure(0, weight=1)
+    tab.columnconfigure(0, weight=1)
+
+    main_frame = Frame(tab)
+
+    main_frame.columnconfigure(1, weight=1)
+
+    ip_label = Label(main_frame, text='IP:')
+    ip_label.grid(row=0, column=0, padx=6, pady=6, sticky='W')
+    current_ip = StringVar(main_frame)
+    current_ip.trace('w', lambda *args: update_proxy)
+    ip = Entry(main_frame, width=24, textvariable=current_ip)
+    ip.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
+
+    port_label = Label(main_frame, text='Port:')
+    port_label.grid(row=1, column=0, padx=6, pady=6, sticky='W')
+    current_port = StringVar(main_frame)
+    current_port.trace('w', lambda *args: update_proxy)
+    port = Entry(main_frame, width=24, textvariable=current_port)
+    port.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
+
+    main_frame.grid(row=0, sticky='NEW')
+
+    save_frame = Frame(tab)
+    save_button = Button(save_frame, text='Save', command=save)
+    save_button.pack(side=RIGHT, anchor=S)
+    save_frame.grid(row=1, sticky='SE')
+
+    return tab
+
 def about_tab(parent):
     tab = Frame(parent)
 
@@ -359,6 +418,7 @@ def main(args):
     tabs = ttk.Notebook(window)
     tabs.add(play_tab(tabs), text='Play')
     tabs.add(features_tab(tabs), text='Features')
+    tabs.add(multiplayer_tab(tabs), text='Multiplayer')
     tabs.add(settings_tab(tabs), text='Settings')
     tabs.add(about_tab(tabs), text='About')
     tabs.pack(fill=BOTH, expand=True)
