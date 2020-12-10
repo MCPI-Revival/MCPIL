@@ -362,14 +362,14 @@ def multiplayer_tab(parent):
     ip_label = Label(main_frame, text='IP:')
     ip_label.grid(row=0, column=0, padx=6, pady=6, sticky='W')
     current_ip = StringVar(main_frame)
-    current_ip.trace('w', lambda *args: update_proxy)
+    current_ip.trace('w', lambda *args: update_proxy())
     ip = Entry(main_frame, width=24, textvariable=current_ip)
     ip.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
 
     port_label = Label(main_frame, text='Port:')
     port_label.grid(row=1, column=0, padx=6, pady=6, sticky='W')
     current_port = StringVar(main_frame)
-    current_port.trace('w', lambda *args: update_proxy)
+    current_port.trace('w', lambda *args: update_proxy())
     port = Entry(main_frame, width=24, textvariable=current_port)
     port.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
 
@@ -385,22 +385,29 @@ def multiplayer_tab(parent):
 def about_tab(parent):
     tab = Frame(parent)
 
-    title = Label(tab, text='Minecraft Pi Launcher')
+    main_frame = Frame(tab)
+
+    main_frame.columnconfigure(0, weight=1)
+
+    title = Label(main_frame, text='Minecraft Pi Launcher')
     title.config(font=('', 24))
-    title.pack()
+    title.grid(row=0, sticky='NSEW')
 
-    version = Label(tab, text='v0.8.0')
+    version = Label(main_frame, text='v0.8.0')
     version.config(font=('', 10))
-    version.pack()
+    version.grid(row=1, sticky='NSEW')
 
-    authors = HyperLink(tab, 'https://github.com/MCPI-Devs/MCPIL/graphs/contributors', text='by all its contributors',
+    authors = HyperLink(main_frame, 'https://github.com/MCPI-Devs/MCPIL/graphs/contributors', text='by all its contributors',
                         fg='black')
     authors.config(font=('', 10))
-    authors.pack()
+    authors.grid(row=2, sticky='NSEW')
 
-    url = HyperLink(tab, 'https://github.com/MCPI-Devs/MCPIL-R')
+    url = HyperLink(main_frame, 'https://github.com/MCPI-Devs/MCPIL-R')
     url.config(font=('', 10))
-    url.pack()
+    url.grid(row=3, sticky='NSEW')
+
+    main_frame.pack(expand=True)
+
     return tab
 
 def main(args):
