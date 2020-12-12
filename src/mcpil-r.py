@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  mcpil.py
+#  mcpil-r.py
 #  
 #  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
 #  Copyright 2020 StealthHydrac/StealthHydra179/a1ma
@@ -41,14 +41,14 @@ from subprocess import Popen
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import showerror
-from tkinter import simpledialog
-from tkinter.filedialog import askopenfilename
 
 import webbrowser
 
 '''
     Global variables.
 '''
+
+window: Tk
 
 descriptions = [
     'Classic Miecraft Pi Edition. (Not Recommended)\nNo mods.',
@@ -174,7 +174,7 @@ def update_launch_button():
     launch_button.after(10, update_launch_button)
 
 # Close MCPIL
-def bye():
+def quit():
     global current_process
     if current_process is not None and current_process.poll() is None:
         killpg(getpgid(current_process.pid), signal.SIGTERM)
@@ -192,7 +192,8 @@ def update_proxy():
         proxy.set_option("src_port", int(current_port.get()))
         proxy_thread = threading.Thread(target=proxy.run)
         proxy_thread.start()
-    except ValueError as e:
+    except ValueError:
+        # Invalid Port
         pass
 
 # Save/Load Config
@@ -382,6 +383,16 @@ def multiplayer_tab(parent):
 
     return tab
 
+# Get Version
+def get_version() -> str:
+    try:
+        with open('/opt/mcpil-r/VERSION', 'r') as file:
+            return 'v' + file.readline().strip()
+    except OSError:
+        # File Does Not Exists Or Is Inaccessible
+        pass
+    return 'Unknown Version'
+
 def about_tab(parent):
     tab = Frame(parent)
 
@@ -393,7 +404,7 @@ def about_tab(parent):
     title.config(font=('', 24))
     title.grid(row=0, sticky='NSEW')
 
-    version = Label(main_frame, text='v0.8.0')
+    version = Label(main_frame, text=get_version())
     version.config(font=('', 10))
     version.grid(row=1, sticky='NSEW')
 
@@ -410,15 +421,15 @@ def about_tab(parent):
 
     return tab
 
-def main(args):
+def main():
     if platform.system() != 'Linux':
         showerror('Error', 'Linux Is Required')
         return 1
 
     global window
 
-    window = Tk()
-    window.title('MCPI Laucher - Rebooted')
+    window = Tk(className='mcpil-r')
+    window.title('MCPI Launcher - Rebooted')
     window.geometry('512x400')
     window.resizable(True, True)
 
@@ -433,14 +444,15 @@ def main(args):
     load()
     save()
 
-    window.wm_protocol('WM_DELETE_WINDOW', bye)
+    window.wm_protocol('WM_DELETE_WINDOW', quit)
+    signal.signal(signal.SIGINT, lambda *args: quit())
 
     try:
         window.mainloop()
     except KeyboardInterrupt:
-        bye()
+        quit()
 
     return 0
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    sys.exit(main())

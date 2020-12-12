@@ -5,7 +5,7 @@ from pathlib import Path
 import launcher
 
 def _get_config_path() -> str:
-    return str(Path.home()) + '/.mcpil.json'
+    return str(Path.home()) + '/.mcpil-r.json'
 
 def _copy(src: dict, dst: dict):
     for key in dst:

@@ -1,0 +1,7 @@
+Package: mcpil-r
+Version: ${VERSION}
+Maintainer: TheBrokenRail <connor24nolan@live.com>
+Description: MCPI Launcher - Rebooted
+Homepage: https://mcpi.tk
+Architecture: all
+Depends: python3, python3-tk, minecraft-pi-virgl | minecraft-pi-native

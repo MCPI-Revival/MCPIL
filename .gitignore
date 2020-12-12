@@ -15,3 +15,7 @@ deb/
 # PyCharm
 .idea/*
 !.idea/codeStyles
+
+# Debian
+debian/tmp
+out/deb
