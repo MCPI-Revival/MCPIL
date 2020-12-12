@@ -7,7 +7,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install Dependencies
-        run: sudo apt-get install -y dpkg-deb
+        run: sudo apt-get update && sudo apt-get install -y dpkg-deb
       - name: Package
         run: ./scripts/package.sh
       - name: Archive production artifacts
