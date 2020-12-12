@@ -10,9 +10,7 @@ jobs:
       - name: Checkout submodules
         uses: textbook/git-checkout-submodule-action@master
       - name: Install Dependencies
-        run: sudo apt-get install -y dpkg-dev python3 python3-pip
-      - name: Install Python Minifier
-        run: pip3 install python-minifier
+        run: sudo apt-get install -y dpkg-dev
       - name: Package
         run: ./scripts/package.sh
       - name: Archive production artifacts
