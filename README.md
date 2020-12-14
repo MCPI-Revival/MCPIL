@@ -15,6 +15,5 @@ Raspbian Buster/Ubuntu 18.04 Or Higher
 ```sh
 git clone --recurse-submodules https://github.com/MCPI-Devs/MCPIL-R.git
 cd MCPIL-R
-pip3 install python-minifier
 ./scripts/package.sh
 ```
