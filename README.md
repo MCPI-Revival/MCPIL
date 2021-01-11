@@ -1,6 +1,3 @@
-### :warning: WARNING
-The MCPIL rewrite is under active development and is very unstable. Anything can change at any time.
-
 # MCPIL-R
 This is a rewrite of th original MCPIL project meant to be less fragile and more compatible.
 

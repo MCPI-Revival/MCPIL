@@ -13,9 +13,36 @@ jobs:
         run: sudo apt-get install -y dpkg-dev
       - name: Package
         run: ./scripts/package.sh
-      - name: Archive production artifacts
+      - name: Archive Artifacts
         uses: actions/upload-artifact@v2
         with:
+          if-no-files-found: error
           name: debian
           path: |
             out
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: debian
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: debian
+          path: out
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Assets
+        uses: alexellis/upload-assets@0.2.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          asset_paths: '["./out/*"]'
