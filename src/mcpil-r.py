@@ -67,6 +67,8 @@ current_process: Popen = None
 
 current_config = {}
 
+proxy_lock = threading.Lock()
+proxy_thread: threading.Thread = None
 proxy = Proxy()
 current_ip: StringVar
 current_port: StringVar
@@ -183,16 +185,20 @@ def quit():
 
 # Start/Stop Proxy
 def update_proxy():
-    global proxy, current_ip, current_port
-    proxy.stop()
+    global proxy, proxy_thread, proxy_lock, current_ip, current_port
+    proxy_lock.acquire()
+    if proxy_thread is not None:
+        proxy.stop()
+        proxy_thread.join()
     try:
         proxy.set_option("src_addr", current_ip.get())
         proxy.set_option("src_port", int(current_port.get()))
-        proxy_thread = threading.Thread(target=proxy.run)
+        proxy_thread = threading.Thread(target=lambda *args: proxy.run())
         proxy_thread.start()
     except ValueError:
         # Invalid Port
         pass
+    proxy_lock.release()
 
 # Save/Load Config
 def load():
