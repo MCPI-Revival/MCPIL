@@ -4,6 +4,9 @@ This is a rewrite of th original MCPIL project meant to be less fragile and more
 ## System Requirements
 Raspbian Buster/Ubuntu 18.04 Or Higher
 
+## Debian Packages
+[GitHub Releases](https://github.com/MCPI-Devs/MCPIL-R/releases/latest)
+
 ## Dependencies
 - Python 3
 - [MCPI-Docker](https://gitea.thebrokenrail.com/TheBrokenRail/minecraft-pi-docker)
