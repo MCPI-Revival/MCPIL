@@ -2,6 +2,9 @@
 
 set -e
 
+# Set Version
+echo "$(git describe --tags --dirty)" > src/VERSION
+
 # Prepare
 rm -rf debian/tmp
 mkdir debian/tmp

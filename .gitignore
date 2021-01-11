@@ -19,3 +19,6 @@ out/
 # Debian
 debian/tmp
 out/deb
+
+# Version
+src/VERSION
