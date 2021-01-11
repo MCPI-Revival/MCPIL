@@ -7,8 +7,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Checkout Submodules
-        uses: textbook/git-checkout-submodule-action@master
+        with:
+          submodules: recursive
+          fetch-depth: 0
       - name: Install Dependencies
         run: sudo apt-get install -y dpkg-dev
       - name: Package
