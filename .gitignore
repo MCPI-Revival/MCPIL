@@ -10,7 +10,7 @@ __pycache__/
 
 # Debian
 mcpil_*-*.deb
-deb/
+out/
 
 # PyCharm
 .idea/*

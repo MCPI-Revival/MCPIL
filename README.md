@@ -1,6 +1,9 @@
 # MCPIL-R
 This is a rewrite of th original MCPIL project meant to be less fragile and more compatible.
 
+## Changelog
+[View Changelog](CHANGELOG.md)
+
 ## System Requirements
 Raspbian Buster/Ubuntu 18.04 Or Higher
 
