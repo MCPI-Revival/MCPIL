@@ -1,5 +1,8 @@
 # Changelog
 
+**0.1.3**
+* New Logo
+
 **0.1.2**
 * Fix Multiplayer Proxy Not Starting/Stopping Correctly
 
