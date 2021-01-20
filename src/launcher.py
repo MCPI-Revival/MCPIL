@@ -1,4 +1,4 @@
-# License Uniquely Under MIT Because This File Might Be Useful In Other Projects
+# Licensed Uniquely Under MIT Because This File Might Be Useful For Other Projects
 #
 # MIT License
 #
