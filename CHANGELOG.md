@@ -1,5 +1,8 @@
 # Changelog
 
+**0.1.4**
+* Update To Reflect MCPI-Reborn Name Change
+
 **0.1.3**
 * New Logo
 
