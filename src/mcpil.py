@@ -49,9 +49,9 @@ import webbrowser
 window: Tk
 
 descriptions = [
-    'Classic Miecraft Pi Edition. (Not Recommended)\nNo mods.',
-    'Modded Miecraft Pi Edition.\nDefault MCPI-Docker mods without Touch GUI.',
-    'Minecraft Pocket Edition. (Recommended)\nDefault MCPI-Docker mods.',
+    'Classic Minecraft Pi Edition. (Not Recommended)\nNo mods.',
+    'Modded Minecraft Pi Edition.\nDefault MCPI-Reborn mods without Touch GUI.',
+    'Minecraft Pocket Edition. (Recommended)\nDefault MCPI-Reborn mods.',
     'Custom Profile.\nModify its settings in the Features tab.',
 ]
 current_selection = 0

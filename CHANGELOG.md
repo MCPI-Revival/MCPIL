@@ -1,5 +1,8 @@
 # Changelog
 
+**0.1.6**
+* Fix Typo
+
 **0.1.5**
 * Drop The ``-R``
 
