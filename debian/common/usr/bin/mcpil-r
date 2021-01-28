@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -e
-
-exec python3 /opt/mcpil-r/mcpil-r.py

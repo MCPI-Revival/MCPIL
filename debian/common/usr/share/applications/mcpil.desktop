@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=MCPIL
+Comment=Minecraft Pi Launcher
+Icon=/usr/share/pixmaps/mcpil.png
+StartupNotify=false
+StartupWMClass=mcpil
+Exec=/usr/bin/mcpil
+Terminal=false
+Type=Application
+Categories=Application;Game;

@@ -1,5 +1,8 @@
 # Changelog
 
+**0.1.5**
+* Drop The ``-R``
+
 **0.1.4**
 * Update To Reflect MCPI-Reborn Name Change
 

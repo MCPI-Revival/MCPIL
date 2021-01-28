@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  mcpil-r.py
+#  mcpil.py
 #  
 #  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
 #  Copyright 2020 StealthHydrac/StealthHydra179/a1ma
@@ -390,7 +390,7 @@ def multiplayer_tab(parent):
 # Get Version
 def get_version() -> str:
     try:
-        with open('/opt/mcpil-r/VERSION', 'r') as file:
+        with open('/opt/mcpil/VERSION', 'r') as file:
             return 'v' + file.readline().strip()
     except OSError:
         # File Does Not Exists Or Is Inaccessible
@@ -412,12 +412,12 @@ def about_tab(parent):
     version.config(font=('', 10))
     version.grid(row=1, sticky='NSEW')
 
-    authors = HyperLink(main_frame, 'https://github.com/MCPI-Devs/MCPIL/graphs/contributors', text='by all its contributors',
+    authors = HyperLink(main_frame, 'https://github.com/MCPI-Revival/MCPIL/graphs/contributors', text='by all its contributors',
                         fg='black')
     authors.config(font=('', 10))
     authors.grid(row=2, sticky='NSEW')
 
-    url = HyperLink(main_frame, 'https://github.com/MCPI-Devs/MCPIL-R')
+    url = HyperLink(main_frame, 'https://github.com/MCPI-Revival/MCPIL')
     url.config(font=('', 10))
     url.grid(row=3, sticky='NSEW')
 
@@ -432,8 +432,8 @@ def main():
 
     global window
 
-    window = Tk(className='mcpil-r')
-    window.title('MCPI Launcher - Rebooted')
+    window = Tk(className='mcpil')
+    window.title('MCPIL')
     window.geometry('512x400')
     window.resizable(True, True)
 

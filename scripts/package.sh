@@ -12,9 +12,9 @@ rm -rf out
 mkdir -p out
 
 # Copy
-mkdir -p debian/tmp/opt/mcpil-r
+mkdir -p debian/tmp/opt/mcpil
 rsync -r debian/common/ debian/tmp
-rsync -r src/ debian/tmp/opt/mcpil-r
+rsync -r src/ debian/tmp/opt/mcpil
 
 # Substitute
 sed -i 's/${VERSION}/'"$(cat src/VERSION)"'/g' debian/tmp/DEBIAN/control
