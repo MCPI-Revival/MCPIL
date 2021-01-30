@@ -18,7 +18,7 @@ Download and install MCPIL from the Packagecloud Debian repository:
 curl -s https://packagecloud.io/install/repositories/Alvarito050506/mcpi-devs/script.deb.sh | sudo bash
 
 # Now the actual installation
-sudo apt-get install mcpil-r
+sudo apt-get install mcpil
 ```
 
 ## Changelog
