@@ -59,6 +59,13 @@ description_text: Label
 
 launch_button: Button
 
+render_distances = [
+    'Far',
+    'Normal',
+    'Short',
+    'Tiny',
+]
+current_render_distance: StringVar
 current_username: StringVar
 current_features = []
 feature_widgets: Dict[str, ttk.Checkbutton] = {}
@@ -160,10 +167,10 @@ def get_features() -> list:
 
 # Launch Minecraft
 def launch():
-    global current_username, current_process
+    global current_render_distance, current_username, current_process
     launch_button.config(state=DISABLED)
     if current_process is None or current_process.poll() is not None:
-        current_process = launcher.run(get_features(), current_username.get())
+        current_process = launcher.run(get_features(), current_render_distance.get(), current_username.get())
     return 0
 
 # Update Launch Button
@@ -202,8 +209,9 @@ def update_proxy():
 
 # Save/Load Config
 def load():
-    global current_config, current_username, current_features, feature_widgets
+    global current_config, current_render_distance, current_username, current_features, feature_widgets
     current_config = config.load()
+    current_render_distance.set(current_config['general']['render-distance'])
     current_username.set(current_config['general']['username'])
     current_features = current_config['general']['custom-features'].copy()
     for key in feature_widgets:
@@ -216,7 +224,8 @@ def load():
     current_port.set(current_config['server']['port'])
     update_proxy()
 def save():
-    global current_config, current_username, current_features
+    global current_config, current_render_distance, current_username, current_features
+    current_config['general']['render-distance'] = current_render_distance.get()
     current_config['general']['username'] = current_username.get()
     current_config['general']['custom-features'] = current_features.copy()
     current_config['server']['ip'] = current_ip.get()
@@ -235,15 +244,17 @@ def update_features():
     Event handlers.
 '''
 
-def on_select_versions(event):
+def select_version(version: int):
     global current_selection
     try:
-        current_selection = event.widget.curselection()[0]
+        current_selection = version
         description_text['text'] = descriptions[current_selection]
     except IndexError:
         pass
     except Exception as err:
         return 'Critical error {}'.format(err)
+def on_select_versions(event):
+    select_version(event.widget.curselection()[0])
     return 0
 
 '''
@@ -271,7 +282,7 @@ def play_tab(parent):
 
     description_text = Label(versions_frame, text='', wraplength=256)
 
-    versions = Listbox(versions_frame, selectmode=SINGLE)
+    versions = Listbox(versions_frame, selectmode=SINGLE, exportselection=False)
     versions.insert(0, ' Classic MCPI ')
     versions.insert(1, ' Modded MCPI ')
     versions.insert(2, ' Classic MCPE ')
@@ -279,7 +290,7 @@ def play_tab(parent):
     versions.bind('<<ListboxSelect>>', on_select_versions)
     versions.grid(row=0, column=0, sticky='NSEW')
     versions.selection_set(2)
-    versions.event_generate('<<ListboxSelect>>')
+    select_version(versions.curselection()[0])
 
     description_text.grid(row=0, column=1, pady=48, padx=48, sticky='NSE')
 
@@ -295,7 +306,7 @@ def play_tab(parent):
     return tab
 
 def settings_tab(parent):
-    global current_username
+    global current_render_distance, current_username
 
     tab = Frame(parent)
 
@@ -306,11 +317,18 @@ def settings_tab(parent):
 
     main_frame.columnconfigure(1, weight=1)
 
+    render_distance_label = Label(main_frame, text='Render Distance:')
+    render_distance_label.grid(row=0, column=0, padx=6, pady=6, sticky='W')
+    current_render_distance = StringVar(main_frame)
+    render_distance = ttk.Combobox(main_frame, textvariable=current_render_distance, values=render_distances, width=24)
+    render_distance.state(['readonly'])
+    render_distance.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
+
     username_label = Label(main_frame, text='Username:')
-    username_label.grid(row=0, column=0, padx=6, pady=6, sticky='W')
+    username_label.grid(row=1, column=0, padx=6, pady=6, sticky='W')
     current_username = StringVar(main_frame)
     username = Entry(main_frame, width=24, textvariable=current_username)
-    username.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
+    username.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
 
     main_frame.grid(row=0, sticky='NEW')
 

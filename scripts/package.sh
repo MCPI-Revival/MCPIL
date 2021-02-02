@@ -20,7 +20,7 @@ rsync -r src/ debian/tmp/opt/mcpil
 sed -i 's/${VERSION}/'"$(cat src/VERSION)"'/g' debian/tmp/DEBIAN/control
 
 # Build DEB
-dpkg -b debian/tmp out
+dpkg-deb -b --root-owner-group debian/tmp out
 
 # Clean Up
 rm -rf debian/tmp

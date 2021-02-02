@@ -22,7 +22,7 @@ def load() -> dict:
             obj = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         obj = {}
-    out = {'general': {'custom-features': [], 'username': 'StevePi'}, 'server': {'ip': 'thebrokenrail.com', 'port': '19132'}}
+    out = {'general': {'custom-features': [], 'render-distance': 'Short',  'username': 'StevePi'}, 'server': {'ip': 'thebrokenrail.com', 'port': '19132'}}
     for key in launcher.AVAILABLE_FEATURES:
         if launcher.AVAILABLE_FEATURES[key]:
             out['general']['custom-features'].append(key)

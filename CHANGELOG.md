@@ -1,5 +1,8 @@
 # Changelog
 
+**0.1.8**
+* Add Render Distance Options
+
 **0.1.7**
 * Pre-Populate Server
 
