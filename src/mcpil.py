@@ -153,15 +153,15 @@ def get_features() -> list:
     if current_selection == 0:
         # No Mods
         return []
-    elif current_selection == 1:
+    if current_selection == 1:
         # Default Mods Minus Touch GUI
         mods = launcher.AVAILABLE_FEATURES.copy()
         mods['Touch GUI'] = False
         return features_dict_to_list(mods)
-    elif current_selection == 2:
+    if current_selection == 2:
         # Default Mods
         return features_dict_to_list(launcher.AVAILABLE_FEATURES.copy())
-    elif current_selection == 3:
+    if current_selection == 3:
         # Custom Features (Use Features Tab)
         return current_features
 
