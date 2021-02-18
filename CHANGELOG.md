@@ -1,5 +1,8 @@
 # Changelog
 
+**0.1.9**
+* Update Proxy
+
 **0.1.8**
 * Add Render Distance Options
 
