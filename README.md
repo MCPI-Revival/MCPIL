@@ -1,5 +1,5 @@
 # MCPIL
-Simple GUI launcher for Minecraft: Pi Edition and [MCPI-Reborn](https://gitea.thebrokenrail.com/TheBrokenRail/minecraft-pi-reborn)
+Simple GUI launcher for Minecraft: Pi Edition and [MCPI-Reborn](https://gitea.thebrokenrail.com/TheBrokenRail/minecraft-pi-reborn).
 
 This is a rewrite of the original [MCPIL](https://github.com/MCPI-Devs/MCPIL-Old) project meant to be less fragile and more compatible.
 
