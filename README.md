@@ -1,7 +1,7 @@
 <h1 align="center">MCPIL</h1>
 
 <p align="center">
-  Simple GUI launcher for Minecraft: Pi Edition and [MCPI-Reborn](https://gitea.thebrokenrail.com/TheBrokenRail/minecraft-pi-reborn).
+  Simple GUI launcher for Minecraft: Pi Edition and <a href="https://gitea.thebrokenrail.com/TheBrokenRail/minecraft-pi-reborn/">MCPI-Reborn</a>.
 </p>
 
 <p align="center">
