@@ -30,6 +30,9 @@ from proxy.proxy import Proxy
 import launcher
 import config
 
+from splashes import SPLASHES
+import random
+
 from os import kill, killpg, getpid, getpgid
 import platform
 import threading
@@ -272,8 +275,11 @@ def play_tab(parent):
     title.config(font=('', 24))
     title.grid(row=0)
 
+    splash_text = ttk.Label(tab, text=random.choice(SPLASHES), foreground='yellow')
+    splash_text.grid(row=1, pady=4)
+
     choose_text = ttk.Label(tab, text='Choose a Minecraft version to launch.')
-    choose_text.grid(row=1, pady=16)
+    choose_text.grid(row=2, pady=(0, 16))
 
     versions_frame = ttk.Frame(tab)
 
@@ -297,12 +303,12 @@ def play_tab(parent):
 
     description_text_label.grid(row=0, column=1, pady=48, padx=48, sticky='NSE')
 
-    versions_frame.grid(row=2, sticky='NSEW')
+    versions_frame.grid(row=3, sticky='NSEW')
 
     launch_frame = ttk.Frame(tab)
     launch_button = ttk.Button(launch_frame, text='Launch', command=launch)
     launch_button.pack(side=RIGHT, anchor=S)
-    launch_frame.grid(row=3, sticky='SE')
+    launch_frame.grid(row=4, sticky='SE')
 
     launch_button.after(0, update_launch_button)
 
