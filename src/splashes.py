@@ -16,6 +16,8 @@ SPLASHES = [
     'Where Is My Pie?',
     'I Was Promised Pie!',
     '@Banana',
+    'BANANANA!!',
+    'to na or not to na, that is the question!'
     'Not Minecraft Java!',
     'Not Minecraft Bedrock (Technically)!',
     'Definitely Not Minecraft Console!',
@@ -32,5 +34,6 @@ SPLASHES = [
     'Who Is StevePi?',
     'Made By Notch!',
     'Open-Source!',
-    'FREE!'
+    'FREE!',
+    'RIP MCPIL-Legacy, you lived a good life'
 ]
