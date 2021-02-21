@@ -54,12 +54,13 @@ import webbrowser
 window: Tk
 
 DESCRIPTIONS = [
-    'Classic Minecraft Pi Edition. (Not Recommended)\nNo mods.',
-    'Modded Minecraft Pi Edition.\nDefault MCPI-Reborn mods without Touch GUI.',
-    'Minecraft Pocket Edition. (Recommended)\nDefault MCPI-Reborn mods.',
-    'Custom Profile.\nModify its settings in the Features tab.',
+    'Classic Minecraft Pi Edition.\n(Not Recommended)\nAll optional features disabled.',
+    'Modded Minecraft Pi Edition.\nDefault MCPI-Reborn optional features without Touch GUI.',
+    'Minecraft Pocket Edition.\n(Recommended)\nDefault MCPI-Reborn optional features.',
+    'Optimized Minecraft Pocket Edition.\nDefault MCPI-Reborn optional features with lower quality graphics.',
+    'Custom Profile.\nModify its settings in the Features tab.'
 ]
-current_selection = 0
+current_selection = 2
 description_text: StringVar
 
 launch_button: ttk.Button
@@ -156,17 +157,25 @@ def features_dict_to_list(features: Dict[str, bool]):
 def get_features() -> list:
     global current_selection, current_features
     if current_selection == 0:
-        # No Mods
+        # No Features
         return []
     elif current_selection == 1:
-        # Default Mods Minus Touch GUI
+        # Default Features Minus Touch GUI
         mods = launcher.AVAILABLE_FEATURES.copy()
         mods['Touch GUI'] = False
         return features_dict_to_list(mods)
     elif current_selection == 2:
-        # Default Mods
+        # Default Features
         return features_dict_to_list(launcher.AVAILABLE_FEATURES.copy())
     elif current_selection == 3:
+        # Default Features With Lower Quality Graphics
+        mods = launcher.AVAILABLE_FEATURES.copy()
+        mods['Fancy Graphics'] = False
+        mods['Smooth Lighting'] = False
+        mods['Animated Water'] = False
+        mods['Disable gui_blocks Atlas'] = False
+        return features_dict_to_list(mods)
+    elif current_selection == 4:
         # Custom Features (Use Features Tab)
         return current_features
 
@@ -294,8 +303,9 @@ def play_tab(parent):
     versions = ttk.Treeview(versions_frame, selectmode='browse', show='tree')
     versions.insert('', 'end', text='Classic MCPI', iid=0)
     versions.insert('', 'end', text='Modded MCPI', iid=1)
-    versions.insert('', 'end', text='Classic MCPE', iid=2)
-    versions.insert('', 'end', text='Custom Profile', iid=3)
+    versions.insert('', 'end', text='Modded MCPE', iid=2)
+    versions.insert('', 'end', text='Optimized MCPE', iid=3)
+    versions.insert('', 'end', text='Custom Profile', iid=4)
     versions.bind('<<TreeviewSelect>>', on_select_versions)
     versions.grid(row=0, column=0, sticky='NSEW')
     versions.selection_set(2)
