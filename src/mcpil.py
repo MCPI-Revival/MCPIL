@@ -51,8 +51,10 @@ import webbrowser
     Global variables.
 '''
 
+# Root Window
 window: Tk
 
+# Constants
 DESCRIPTIONS = [
     'Classic Minecraft Pi Edition.\n(Not Recommended)\nAll optional features disabled.',
     'Modded Minecraft Pi Edition.\nDefault MCPI-Reborn optional features without Touch GUI.',
@@ -60,48 +62,50 @@ DESCRIPTIONS = [
     'Optimized Minecraft Pocket Edition.\nDefault MCPI-Reborn optional features with lower quality graphics.',
     'Custom Profile.\nModify its settings in the Features tab.'
 ]
-current_selection = 2
-description_text: StringVar
-
-launch_button: ttk.Button
-
-render_distances = [
+RENDER_DISTANCES = [
     'Far',
     'Normal',
     'Short',
     'Tiny',
 ]
+
+# Current Profile
+current_profile_selection = 2
+# Current Profile Description Text
+description_text: StringVar
+
+# Launch Button
+launch_button: ttk.Button
+
+# Settings
 current_render_distance: StringVar
 current_username: StringVar
+current_hide_launcher: IntVar
+
+# Proxy Settings
+current_ip: StringVar
+current_port: StringVar
+
+# Custom Profile Features
 current_features = []
 feature_widgets: Dict[str, ttk.Checkbutton] = {}
 
+# Current Process
 current_process: Popen = None
 
+# Current Config
 current_config = {}
 
+# Proxy
 proxy_lock = threading.Lock()
 proxy_thread: threading.Thread = None
 proxy = Proxy()
-current_ip: StringVar
-current_port: StringVar
 
 '''
     Helper classes.
 '''
 
-class Checkbox(ttk.Checkbutton):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.state = BooleanVar(self)
-        self.configure(variable=self.state)
-
-    def checked(self):
-        return self.state.get()
-
-    def check(self, val):
-        return self.state.set(val)
-
+# Hyper-Link
 class HyperLink(ttk.Label):
     def __init__(self, parent, url, text=None, cursor=None, *args, **kwargs):
         self.url = url
@@ -111,6 +115,7 @@ class HyperLink(ttk.Label):
     def web_open(self, event):
         return webbrowser.open(self.url)
 
+# Frame With Scrollbar
 class ScrollableFrame(ttk.Frame):
     def __init__(self, root):
         super().__init__(root)
@@ -142,6 +147,7 @@ class ScrollableFrame(ttk.Frame):
     Helper functions and back-end.
 '''
 
+# Get Path Base-Name
 def basename(path):
     return path.split('/')[-1]
 
@@ -152,22 +158,21 @@ def features_dict_to_list(features: Dict[str, bool]):
         if features[key]:
             out.append(key)
     return out
-
-# Get Features From Selected Mode
+# Get Features From Selected Profile
 def get_features() -> list:
-    global current_selection, current_features
-    if current_selection == 0:
+    global current_profile_selection, current_features
+    if current_profile_selection == 0:
         # No Features
         return []
-    elif current_selection == 1:
+    elif current_profile_selection == 1:
         # Default Features Minus Touch GUI
         mods = launcher.AVAILABLE_FEATURES.copy()
         mods['Touch GUI'] = False
         return features_dict_to_list(mods)
-    elif current_selection == 2:
+    elif current_profile_selection == 2:
         # Default Features
         return features_dict_to_list(launcher.AVAILABLE_FEATURES.copy())
-    elif current_selection == 3:
+    elif current_profile_selection == 3:
         # Default Features With Lower Quality Graphics
         mods = launcher.AVAILABLE_FEATURES.copy()
         mods['Fancy Graphics'] = False
@@ -175,23 +180,55 @@ def get_features() -> list:
         mods['Animated Water'] = False
         mods['Disable gui_blocks Atlas'] = False
         return features_dict_to_list(mods)
-    elif current_selection == 4:
+    elif current_profile_selection == 4:
         # Custom Features (Use Features Tab)
         return current_features
+    # Impossible
+    raise ValueError
+# Update Features From Widgets
+def update_features():
+    global current_features, feature_widgets
+    current_features = []
+    for key in feature_widgets:
+        if feature_widgets[key].instate(['selected']):
+            current_features.append(key)
 
 # Launch Minecraft
 def launch():
     global current_render_distance, current_username, current_process
-    launch_button.config(state=DISABLED)
+    launch_button.state(['disabled'])
     if current_process is None or current_process.poll() is not None:
         current_process = launcher.run(get_features(), current_render_distance.get(), current_username.get())
     return 0
 
-# Update Launch ttk.Button
+# Hide/Show Window
+window_shown = True
+def hide_window():
+    global window, window_shown
+    if window_shown:
+        window.withdraw()
+        window_shown = False
+def show_window():
+    global window, window_shown
+    if not window_shown:
+        window.update()
+        window.deiconify()
+        window_shown = True
+
+# Update Launch Button
 def update_launch_button():
-    global launch_button
-    if (current_process is None or current_process.poll() is not None) and launch_button['state'] == DISABLED:
-        launch_button.config(state=NORMAL)
+    global launch_button, current_hide_launcher
+
+    game_closed = current_process is None or current_process.poll() is not None
+
+    if (not game_closed) and current_hide_launcher.get():
+        hide_window()
+    else:
+        show_window()
+
+    if game_closed and launch_button.instate(['disabled']):
+        launch_button.state(['!disabled'])
+
     launch_button.after(10, update_launch_button)
 
 # Close MCPIL
@@ -223,7 +260,7 @@ def update_proxy():
 
 # Save/Load Config
 def load():
-    global current_config, current_render_distance, current_username, current_features, feature_widgets
+    global current_config, current_render_distance, current_username, current_features, feature_widgets, current_hide_launcher
     current_config = config.load()
     current_render_distance.set(current_config['general']['render-distance'])
     current_username.set(current_config['general']['username'])
@@ -234,35 +271,29 @@ def load():
             feature_widgets[key].state(['selected'])
         else:
             feature_widgets[key].state(['!selected'])
+    current_hide_launcher.set(int(current_config['general']['hide-launcher']))
     current_ip.set(current_config['server']['ip'])
     current_port.set(current_config['server']['port'])
     update_proxy()
 def save():
-    global current_config, current_render_distance, current_username, current_features
+    global current_config, current_render_distance, current_username, current_features, current_hide_launcher
     current_config['general']['render-distance'] = current_render_distance.get()
     current_config['general']['username'] = current_username.get()
     current_config['general']['custom-features'] = current_features.copy()
+    current_config['general']['hide-launcher'] = bool(current_hide_launcher.get())
     current_config['server']['ip'] = current_ip.get()
     current_config['server']['port'] = current_port.get()
     config.save(current_config)
-
-# Update Features From Widgets
-def update_features():
-    global current_features, feature_widgets
-    current_features = []
-    for key in feature_widgets:
-        if feature_widgets[key].instate(['selected']):
-            current_features.append(key)
 
 '''
     Event handlers.
 '''
 
 def select_version(version: int):
-    global current_selection
+    global current_profile_selection
     try:
-        current_selection = version
-        description_text.set(DESCRIPTIONS[int(current_selection)])
+        current_profile_selection = int(version)
+        description_text.set(DESCRIPTIONS[current_profile_selection])
     except IndexError:
         pass
     except Exception as err:
@@ -275,6 +306,7 @@ def on_select_versions(event):
     Tabs.
 '''
 
+# Play Tab
 def play_tab(parent):
     global description_text, launch_button
 
@@ -325,7 +357,7 @@ def play_tab(parent):
     return tab
 
 def settings_tab(parent):
-    global current_render_distance, current_username
+    global current_render_distance, current_username, current_hide_launcher
 
     tab = ttk.Frame(parent)
 
@@ -339,7 +371,7 @@ def settings_tab(parent):
     render_distance_label = ttk.Label(main_frame, text='Render Distance:')
     render_distance_label.grid(row=0, column=0, padx=6, pady=6, sticky='W')
     current_render_distance = StringVar(main_frame)
-    render_distance = ttk.Combobox(main_frame, textvariable=current_render_distance, values=render_distances, width=24)
+    render_distance = ttk.Combobox(main_frame, textvariable=current_render_distance, values=RENDER_DISTANCES, width=24)
     render_distance.state(['readonly'])
     render_distance.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
 
@@ -348,6 +380,12 @@ def settings_tab(parent):
     current_username = StringVar(main_frame)
     username = ttk.Entry(main_frame, width=24, textvariable=current_username)
     username.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
+
+    hide_launcher_label = ttk.Label(main_frame, text='Hide Launcher While Game Is Open:')
+    hide_launcher_label.grid(row=2, column=0, padx=6, pady=6, sticky='W')
+    current_hide_launcher = IntVar(main_frame)
+    hide_launcher = ttk.Checkbutton(main_frame, variable=current_hide_launcher)
+    hide_launcher.grid(row=2, column=1, padx=6, pady=6, sticky='EW')
 
     main_frame.grid(row=0, sticky='NEW')
 
