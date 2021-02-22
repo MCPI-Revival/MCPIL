@@ -48,7 +48,7 @@ Raspbian Buster/Ubuntu 18.04 Or Higher
 
 ## Compiling/Packaging
 ```sh
-git clone --recurse-submodules https://github.com/MCPI-Devs/MCPIL.git
+git clone --recurse-submodules https://github.com/MCPI-Revival/MCPIL.git
 cd MCPIL
 ./scripts/package.sh
 ```
