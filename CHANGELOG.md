@@ -1,5 +1,11 @@
 # Changelog
 
+**0.2.0 (Release Candidate 1)**
+- Add Splash Text
+- Use Dark Theme
+- Add Option To Hide Launcher While Game Is Running
+- Add "Optimized MCPE" Profile
+
 **0.1.9**
 * Update Proxy
 
