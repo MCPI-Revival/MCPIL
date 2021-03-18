@@ -5,6 +5,7 @@
 #  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
 #  Copyright 2020 StealthHydrac/StealthHydra179/a1ma
 #  Copyright 2020 JumpeR6790
+#  Copyright 2021 LEHAtupointow <pezleha@gmail.com>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -30,7 +31,7 @@ from proxy.proxy import Proxy
 import launcher
 import config
 
-from splashes import SPLASHES
+from splashes import SPLASH
 import random
 
 from os import kill, killpg, getpid, getpgid
@@ -316,7 +317,7 @@ def play_tab(parent):
     title.config(font=('', 24))
     title.grid(row=0)
 
-    splash_text = ttk.Label(tab, text=random.choice(SPLASHES), foreground='yellow')
+    splash_text = ttk.Label(tab, text=SPLASH, foreground='yellow')
     splash_text.grid(row=1, pady=4)
 
     choose_text = ttk.Label(tab, text='Choose a Minecraft version to launch.')
