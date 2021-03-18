@@ -1,3 +1,5 @@
+
+import random 
 SPLASHES = [
     'Sexy!',
     'We Fixed The Rail!',
@@ -37,3 +39,7 @@ SPLASHES = [
     'FREE!',
     'RIP MCPIL-Legacy, 2020-2020'
 ]
+
+SPLASH = random.choice(SPLASHES)
+del SPLASHES
+del random
