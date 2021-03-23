@@ -35,5 +35,6 @@ SPLASHES = [
     'Made By Notch!',
     'Open-Source!',
     'FREE!',
-    'RIP MCPIL-Legacy, 2020-2020'
+    'RIP MCPIL-Legacy, 2020-2020',
+    'Boba was here!'
 ]
