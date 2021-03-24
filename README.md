@@ -29,7 +29,7 @@
 - [MCPI-Reborn](https://gitea.thebrokenrail.com/TheBrokenRail/minecraft-pi-reborn)
 
 ### System Requirements
-Raspbian Buster/Ubuntu 18.04 Or Higher
+Debian/Raspbian Buster/Ubuntu 20.04 Or Higher
 
 ### Installation
 [![badge](https://github.com/Botspot/pi-apps/blob/master/icons/badge.png?raw=true)](https://github.com/Botspot/pi-apps)
