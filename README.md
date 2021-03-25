@@ -52,3 +52,5 @@ git clone --recurse-submodules https://github.com/MCPI-Revival/MCPIL.git
 cd MCPIL
 ./scripts/package.sh
 ```
+Then install the resulting .deb package, eg:
+```sudo dpkg -i 'out/mcpil_0.2.0-rc1-11-g224f00d_all.deb'```
