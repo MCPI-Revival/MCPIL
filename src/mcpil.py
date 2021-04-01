@@ -47,6 +47,9 @@ from ttkthemes import ThemedTk
 
 import webbrowser
 
+import random
+from datetime import date
+
 '''
     Global variables.
 '''
@@ -311,8 +314,16 @@ def play_tab(parent):
     global description_text, launch_button
 
     tab = ttk.Frame(parent)
-
-    title = ttk.Label(tab, text='Minecraft Pi Launcher')
+    today = date.today()
+    randomnumber = random.randint(1,100)
+    if today.month == 4 and today.day == 1:  
+        title = ttk.Label(tab, text='Banana Launcher')
+    else:
+        if randomnumber == 1:
+            title = ttk.Label(tab, text='Minceraft Pi Launcher')
+        else:
+            title = ttk.Label(tab, text='Minecraft Pi Launcher')
+    
     title.config(font=('', 24))
     title.grid(row=0)
 
