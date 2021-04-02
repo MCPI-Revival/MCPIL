@@ -5,7 +5,6 @@
 #  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
 #  Copyright 2020 StealthHydrac/StealthHydra179/a1ma
 #  Copyright 2020 JumpeR6790
-#  Copyright 2021 Boba
 #  Copyright 2021 LEHAtupointow <pezleha@gmail.com>
 #  
 #  This program is free software; you can redistribute it and/or modify
@@ -332,7 +331,13 @@ def play_tab(parent):
     
     if today.month == 4 and today.day == 1:
         SPLASH = "Happy B-Day Alvarito050506"
-
+    elif today.month == 8 and today.day == 24:
+        SPLASH = "Happy Birthday LEHAtupointow"
+    elif today == 2 and today.day = 20:
+        SPLASH = "Happy Birthday Boba"
+    elif today.month == 5 and today.day == 5:
+        SPLASH = random.randint(["I shifted them a bit", "We're moving to gMCPIL or jMCPIL", "Should have come back", "YOU DON'T LIKE POTATOES?"])
+        
     splash_text = ttk.Label(tab, text=SPLASH, foreground='yellow')
     splash_text.grid(row=1, pady=4)
 
