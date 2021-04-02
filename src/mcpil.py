@@ -2,9 +2,11 @@
 #
 #  mcpil.py
 #  
-#  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
-#  Copyright 2020 StealthHydrac/StealthHydra179/a1ma
-#  Copyright 2020 JumpeR6790
+#  Copyright 2020-2021 Alvarito050506 <donfrutosgomez@gmail.com>
+#  Copyright 2020-2021 StealthHydrac/StealthHydra179/a1ma
+#  Copyright 2020-2021 JumpeR6790
+#  Copyright 2021 Boba
+#  Copyright 2021 LEHAtupointow <pezleha@gmail.com>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -316,6 +318,7 @@ def play_tab(parent):
     tab = ttk.Frame(parent)
     today = date.today()
     randomnumber = random.randint(1,100)
+    splash = random.choice(SPLASHES)
     if today.month == 4 and today.day == 1:  
         title = ttk.Label(tab, text='Banana Launcher')
     else:
@@ -326,8 +329,19 @@ def play_tab(parent):
     
     title.config(font=('', 24))
     title.grid(row=0)
-
-    splash_text = ttk.Label(tab, text=random.choice(SPLASHES), foreground='yellow')
+    
+    if today.month == 4 and today.day == 1:
+        SPLASH = "Happy B-Day Alvarito050506"
+    elif today.month == 8 and today.day == 24:
+        SPLASH = "Happy Birthday LEHAtupointow"
+    elif today == 2 and today.day = 20:
+        SPLASH = "Happy Birthday Boba"
+    elif today == 7 and today.day = 15:
+        SPLASH = "Happy Birthday RPiNews!"
+    elif today.month == 5 and today.day == 5:
+        SPLASH = random.randint(["I shifted them a bit", "We're moving to gMCPIL or jMCPIL", "Should have come back", "YOU DON'T LIKE POTATOES?"])
+        
+    splash_text = ttk.Label(tab, text=SPLASH, foreground='yellow')
     splash_text.grid(row=1, pady=4)
 
     choose_text = ttk.Label(tab, text='Choose a Minecraft version to launch.')
