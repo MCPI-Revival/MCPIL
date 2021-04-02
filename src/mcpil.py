@@ -2,9 +2,10 @@
 #
 #  mcpil.py
 #  
-#  Copyright 2020 Alvarito050506 <donfrutosgomez@gmail.com>
-#  Copyright 2020 StealthHydrac/StealthHydra179/a1ma
-#  Copyright 2020 JumpeR6790
+#  Copyright 2020-2021 Alvarito050506 <donfrutosgomez@gmail.com>
+#  Copyright 2020-2021 StealthHydrac/StealthHydra179/a1ma
+#  Copyright 2020-2021 JumpeR6790
+#  Copyright 2021 Boba
 #  Copyright 2021 LEHAtupointow <pezleha@gmail.com>
 #  
 #  This program is free software; you can redistribute it and/or modify
