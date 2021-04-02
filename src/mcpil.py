@@ -336,6 +336,8 @@ def play_tab(parent):
         SPLASH = "Happy Birthday LEHAtupointow"
     elif today == 2 and today.day = 20:
         SPLASH = "Happy Birthday Boba"
+    elif today == 7 and today.day = 15:
+        SPLASH = "Happy Birthday RPiNews!"
     elif today.month == 5 and today.day == 5:
         SPLASH = random.randint(["I shifted them a bit", "We're moving to gMCPIL or jMCPIL", "Should have come back", "YOU DON'T LIKE POTATOES?"])
         
