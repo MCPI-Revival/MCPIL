@@ -316,9 +316,9 @@ def play_tab(parent):
     global description_text, launch_button
 
     tab = ttk.Frame(parent)
+
     today = date.today()
     randomnumber = random.randint(1,100)
-    splash = random.choice(SPLASHES)
     if today.month == 4 and today.day == 1:  
         title = ttk.Label(tab, text='Banana Launcher')
     else:
@@ -329,19 +329,20 @@ def play_tab(parent):
     
     title.config(font=('', 24))
     title.grid(row=0)
-    
+
+    splash = random.choice(SPLASHES)
     if today.month == 4 and today.day == 1:
-        SPLASH = "Happy B-Day Alvarito050506"
+        splash = "Happy B-Day Alvarito050506"
     elif today.month == 8 and today.day == 24:
-        SPLASH = "Happy Birthday LEHAtupointow"
-    elif today == 2 and today.day = 20:
-        SPLASH = "Happy Birthday Boba"
-    elif today == 7 and today.day = 15:
-        SPLASH = "Happy Birthday RPiNews!"
+        splash = "Happy Birthday LEHAtupointow"
+    elif today == 2 and today.day == 20:
+        splash = "Happy Birthday Boba"
+    elif today == 7 and today.day == 15:
+        splash = "Happy Birthday RPiNews!"
     elif today.month == 5 and today.day == 5:
-        SPLASH = random.randint(["I shifted them a bit", "We're moving to gMCPIL or jMCPIL", "Should have come back", "YOU DON'T LIKE POTATOES?"])
-        
-    splash_text = ttk.Label(tab, text=SPLASH, foreground='yellow')
+        splash = random.randint(["I shifted them a bit", "We're moving to gMCPIL or jMCPIL", "Should have come back", "YOU DON'T LIKE POTATOES?"])
+
+    splash_text = ttk.Label(tab, text=splash, foreground='yellow')
     splash_text.grid(row=1, pady=4)
 
     choose_text = ttk.Label(tab, text='Choose a Minecraft version to launch.')
