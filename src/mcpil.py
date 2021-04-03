@@ -534,6 +534,11 @@ def main():
     window.title('MCPIL')
     window.geometry('512x400')
     window.resizable(True, True)
+    
+        if not time_now.day == 1 and not time_now.month == 4: #The month and the day isn't the Aprils's fools day
+        window.call('wm', 'iconphoto', window._w, PhotoImage(file='mcpil.png'))#set the icon to MCPIL logo
+    else:
+        window.call('wm', 'iconphoto', window._w, PhotoImage(file='banana.png'))#else it is. Set the icon to a banana
 
     tabs = ttk.Notebook(window)
     tabs.add(play_tab(tabs), text='Play')
