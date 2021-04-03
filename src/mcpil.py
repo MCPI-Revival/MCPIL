@@ -331,14 +331,18 @@ def play_tab(parent):
     title.grid(row=0)
 
     splash = random.choice(SPLASHES)
-    if today.month == 4 and today.day == 1:
+    if today.month == 4 and today.day == 4:
         splash = "Happy B-Day Alvarito050506"
     elif today.month == 8 and today.day == 24:
         splash = "Happy Birthday LEHAtupointow"
-    elif today == 2 and today.day == 20:
+    elif today.month == 2 and today.day == 20:
         splash = "Happy Birthday Boba"
-    elif today == 7 and today.day == 15:
+    elif today.month == 7 and today.day == 15:
         splash = "Happy Birthday RPiNews!"
+    elif today.month == 9 and today.day == 13:
+        splash = "Happy B-Day gamer4life1"
+    elif today.month == 7 and today.day == 18:
+        splash = "BED.HEAL(\"TheBoyLeastLikelyTo\");"
     elif today.month == 5 and today.day == 5:
         splash = random.randint(["I shifted them a bit", "We're moving to gMCPIL or jMCPIL", "Should have come back", "YOU DON'T LIKE POTATOES?"])
 
