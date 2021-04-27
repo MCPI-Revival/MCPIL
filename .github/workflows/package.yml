@@ -1,5 +1,5 @@
 name: Package
-on: [push]
+on: [push, pull_request]
 jobs:
   debian:
     name: Debian
