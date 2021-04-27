@@ -169,15 +169,15 @@ def get_features() -> list:
     if current_profile_selection == 0:
         # No Features
         return []
-    elif current_profile_selection == 1:
+    if current_profile_selection == 1:
         # Default Features Minus Touch GUI
         mods = launcher.AVAILABLE_FEATURES.copy()
         mods['Touch GUI'] = False
         return features_dict_to_list(mods)
-    elif current_profile_selection == 2:
+    if current_profile_selection == 2:
         # Default Features
         return features_dict_to_list(launcher.AVAILABLE_FEATURES.copy())
-    elif current_profile_selection == 3:
+    if current_profile_selection == 3:
         # Default Features With Lower Quality Graphics
         mods = launcher.AVAILABLE_FEATURES.copy()
         mods['Fancy Graphics'] = False
@@ -185,7 +185,7 @@ def get_features() -> list:
         mods['Animated Water'] = False
         mods['Disable gui_blocks Atlas'] = False
         return features_dict_to_list(mods)
-    elif current_profile_selection == 4:
+    if current_profile_selection == 4:
         # Custom Features (Use Features Tab)
         return current_features
     # Impossible
