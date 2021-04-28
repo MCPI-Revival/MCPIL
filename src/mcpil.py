@@ -56,7 +56,7 @@ from datetime import date
     Global variables.
 '''
 
-# Root Window
+# Root 
 window: Tk
 
 # Constants
@@ -105,6 +105,9 @@ current_config = {}
 proxy_lock = threading.Lock()
 proxy_thread: threading.Thread = None
 proxy = Proxy()
+
+# Set icon in taskbar
+window.iconphoto(True, PhotoImage(file="/usr/share/pixmap/mcpil.png"));
 
 '''
     Helper classes.
@@ -211,7 +214,8 @@ window_shown = True
 def hide_window():
     global window, window_shown
     if window_shown:
-        window.withdraw()
+        
+        withdraw()
         window_shown = False
 def show_window():
     global window, window_shown
