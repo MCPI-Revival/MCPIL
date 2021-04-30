@@ -44,7 +44,7 @@ Debian/Raspbian Buster/Ubuntu 20.04 Or Higher
 [View Changelog](CHANGELOG.md)
 
 ## Debian Packages
-[GitHub Releases](https://github.com/MCPI-Devs/MCPIL/releases/latest)
+[GitHub Releases](https://github.com/MCPI-Revival/MCPIL/releases/latest)
 
 ## Compiling/Packaging
 ```sh
