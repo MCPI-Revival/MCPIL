@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  mcpil.py
@@ -56,7 +57,7 @@ from datetime import date
     Global variables.
 '''
 
-# Root 
+# Root Window
 window: Tk
 
 # Constants
@@ -105,9 +106,6 @@ current_config = {}
 proxy_lock = threading.Lock()
 proxy_thread: threading.Thread = None
 proxy = Proxy()
-
-# Set icon in taskbar
-window.iconphoto(True, PhotoImage(file="/usr/share/pixmap/mcpil.png"));
 
 '''
     Helper classes.
@@ -214,9 +212,9 @@ window_shown = True
 def hide_window():
     global window, window_shown
     if window_shown:
-        
-        withdraw()
+        window.withdraw()
         window_shown = False
+
 def show_window():
     global window, window_shown
     if not window_shown:
@@ -538,6 +536,9 @@ def main():
     window.title('MCPIL')
     window.geometry('512x400')
     window.resizable(True, True)
+
+    # Set icon in taskbar
+    window.iconphoto(True, PhotoImage(file="/usr/share/pixmap/mcpil.png"))
 
     tabs = ttk.Notebook(window)
     tabs.add(play_tab(tabs), text='Play')
