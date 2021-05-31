@@ -358,7 +358,6 @@ def play_tab(parent):
         else:
             title = ttk.Label(tab, text='Minecraft Pi Launcher')
 
-    title.tooltip = ToolTip(title, text="This is the title, what are you gazing at?\nThere's a small chance it will show something else than this plain title...")
     
     title.config(font=('', 24))
     title.grid(row=0)
@@ -377,7 +376,6 @@ def play_tab(parent):
 
     splash_text = ttk.Label(tab, text=splash, foreground='yellow')
     splash_text.grid(row=1, pady=4)
-    splash_text.tooltip = ToolTip(splash_text, text="This is the random splash that is\nsometimes very interesting...\nFor example at a special day...")
 
     choose_text = ttk.Label(tab, text='Choose a Minecraft version to launch.')
     choose_text.grid(row=2, pady=(0, 16))
@@ -411,7 +409,7 @@ def play_tab(parent):
 
     launch_frame = ttk.Frame(tab)
     launch_button = ttk.Button(launch_frame, text='Launch', command=launch, cursor="shuttle")
-    launch_button.tooltip = ToolTip(launch_button, text="Click this to launch\nMCPI-Reborn with the\nselected profile.")
+    launch_button.tooltip = ToolTip(launch_button, text="Click this to launch MCPI-Reborn")
     launch_button.pack(side=RIGHT, anchor=S)
     launch_frame.grid(row=4, sticky='SE')
 
@@ -436,14 +434,14 @@ def settings_tab(parent):
     current_render_distance = StringVar(main_frame)
     render_distance = ttk.Combobox(main_frame, textvariable=current_render_distance, values=RENDER_DISTANCES, width=24)
     render_distance.state(['readonly'])
-    render_distance.tooltip = ToolTip(render_distance, text="Select the chunk render distance here\nThe smaller the render distance is, the less CPU\nusage it takes.")
+    render_distance.tooltip = ToolTip(render_distance, text="Select the chunk render distance here")
     render_distance.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
 
     username_label = ttk.Label(main_frame, text='Username:')
     username_label.grid(row=1, column=0, padx=6, pady=6, sticky='W')
     current_username = StringVar(main_frame)
     username = ttk.Entry(main_frame, width=24, textvariable=current_username)
-    username.tooltip = ToolTip(username, text="Change this if you want your username\nto be something other than the default \"StevePi\".\nIt is recommended you change it since a lot of griefers use the name\n\"StevePi\"")
+    username.tooltip = ToolTip(username, text="Username for servers")
                             
     username.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
 
@@ -451,7 +449,7 @@ def settings_tab(parent):
     hide_launcher_label.grid(row=2, column=0, padx=6, pady=6, sticky='W')
     current_hide_launcher = IntVar(main_frame)
     hide_launcher = ttk.Checkbutton(main_frame, variable=current_hide_launcher)
-    hide_launcher.tooltip = ToolTip(hide_launcher, text="Check this if you want the launcher to\ndissapear when you start the game.\nThis option does't reflect MCJE's annoyingness\nsince the launcher window will reopen as soon as you will finish playing.")
+    hide_launcher.tooltip = ToolTip(hide_launcher, text="Check this if you want the launcher to dissapear when you start the game.")
     hide_launcher.grid(row=2, column=1, padx=6, pady=6, sticky='EW')
 
     main_frame.grid(row=0, sticky='NEW')
@@ -479,7 +477,7 @@ def features_tab(parent):
     row = 0
     for key in launcher.AVAILABLE_FEATURES:
         check = ttk.Checkbutton(main_frame.scrollable_frame, command=update_features, text=key)
-        check.tooltip = ToolTip(check, text=f"Check this if you want to {key} to be enabled.")
+        check.tooltip = ToolTip(check, text=f"Check this if you want {key} to be enabled.")
         check.pack(padx=6, pady=6, anchor='w')
         feature_widgets[key] = check
 
@@ -512,7 +510,7 @@ def multiplayer_tab(parent):
     current_ip = StringVar(main_frame)
     current_ip.trace('w', lambda *args: update_proxy())
     ip = ttk.Entry(main_frame, width=24, textvariable=current_ip)
-    ip.tooltip = ToolTip(ip, text="This is the IP of the multiplayer server.\nThe IP might be a domain, for example, thebrokenrail.com,\nor it might be an IP adress such as 192.168.1.3")
+    ip.tooltip = ToolTip(ip, text="This is the IP of a multiplayer server.")
     ip.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
 
     port_label = ttk.Label(main_frame, text='Port:')
@@ -520,7 +518,7 @@ def multiplayer_tab(parent):
     current_port = StringVar(main_frame)
     current_port.trace('w', lambda *args: update_proxy())
     port = ttk.Entry(main_frame, width=24, textvariable=current_port)
-    port.tooltip = ToolTip(port, text="Set the port.\nThis varies from server to server.\nOn some servers you need to set the port to get\nin the right gamemode.")
+    port.tooltip = ToolTip(port, text="Set the port.")
     port.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
 
     main_frame.grid(row=0, sticky='NEW')
