@@ -149,6 +149,35 @@ class ScrollableFrame(ttk.Frame):
 
         self.canvas.bind('<Configure>', configure_canvas)
 
+
+
+class ToolTip(object):
+    def __init__(self, widget, text=None):
+        self.widget = widget
+        self.text = text
+        widget.bind("<Enter>", self.mouse_enter)
+        widget.bind("<Leave>", self.mouse_leave)
+
+
+    def mouse_enter(self, _event):
+        self.show_tooltip()
+
+    def mouse_leave(self, _event_):
+        self.hide_tooltip()
+
+    def show_tooltip(self):
+        x_left = self.widget.winfo_rooty()
+        y_top = self.widget.winfo_rootx() - 18
+        self.tip_window = Toplevel(self.widget)
+        self.tip_window.overrideredirect(True)
+        self.tip_window.geometry("+%d+%d" % (x_left, y_top))
+        label = Label(self.tip_window, text=self.text, justify=LEFT, background="#ffffe0", relief=SOLID, borderwidth=1, font=("tahoma", 8, "normal"))
+        label.pack(ipadx=1)
+
+    def hide_tooltip(self):
+        if self.tip_window:
+            self.tip_window.destroy()
+
 '''
     Helper functions and back-end.
 '''
@@ -328,6 +357,7 @@ def play_tab(parent):
             title = ttk.Label(tab, text='Minceraft Pi Launcher')
         else:
             title = ttk.Label(tab, text='Minecraft Pi Launcher')
+
     
     title.config(font=('', 24))
     title.grid(row=0)
@@ -359,6 +389,7 @@ def play_tab(parent):
 
     description_text = StringVar(versions_frame)
     description_text_label = ttk.Label(versions_frame, textvariable=description_text, wraplength=256, anchor='center', justify='center')
+    description_text_label.tooltip = ToolTip(description_text_label, text="The description of the profile shows up here.")
 
     versions = ttk.Treeview(versions_frame, selectmode='browse', show='tree')
     versions.insert('', 'end', text='Classic MCPI', iid=0)
@@ -370,13 +401,15 @@ def play_tab(parent):
     versions.grid(row=0, column=0, sticky='NSEW')
     versions.selection_set(2)
     select_version(versions.selection()[0])
+    versions.tooltip = ToolTip(versions, text="Select a profile from this menu.")
 
     description_text_label.grid(row=0, column=1, pady=48, padx=48, sticky='NSE')
 
     versions_frame.grid(row=3, sticky='NSEW')
 
     launch_frame = ttk.Frame(tab)
-    launch_button = ttk.Button(launch_frame, text='Launch', command=launch)
+    launch_button = ttk.Button(launch_frame, text='Launch', command=launch, cursor="shuttle")
+    launch_button.tooltip = ToolTip(launch_button, text="Click this to launch MCPI-Reborn")
     launch_button.pack(side=RIGHT, anchor=S)
     launch_frame.grid(row=4, sticky='SE')
 
@@ -401,18 +434,22 @@ def settings_tab(parent):
     current_render_distance = StringVar(main_frame)
     render_distance = ttk.Combobox(main_frame, textvariable=current_render_distance, values=RENDER_DISTANCES, width=24)
     render_distance.state(['readonly'])
+    render_distance.tooltip = ToolTip(render_distance, text="Select the chunk render distance here")
     render_distance.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
 
     username_label = ttk.Label(main_frame, text='Username:')
     username_label.grid(row=1, column=0, padx=6, pady=6, sticky='W')
     current_username = StringVar(main_frame)
     username = ttk.Entry(main_frame, width=24, textvariable=current_username)
+    username.tooltip = ToolTip(username, text="Username for servers")
+                            
     username.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
 
     hide_launcher_label = ttk.Label(main_frame, text='Hide Launcher While Game Is Open:')
     hide_launcher_label.grid(row=2, column=0, padx=6, pady=6, sticky='W')
     current_hide_launcher = IntVar(main_frame)
     hide_launcher = ttk.Checkbutton(main_frame, variable=current_hide_launcher)
+    hide_launcher.tooltip = ToolTip(hide_launcher, text="Check this if you want the launcher to dissapear when you start the game.")
     hide_launcher.grid(row=2, column=1, padx=6, pady=6, sticky='EW')
 
     main_frame.grid(row=0, sticky='NEW')
@@ -420,6 +457,7 @@ def settings_tab(parent):
     save_frame = ttk.Frame(tab)
     save_button = ttk.Button(save_frame, text='Save', command=save)
     save_button.pack(side=RIGHT, anchor=S)
+    save_button.tooltip = ToolTip(save_button, text="Save your options before launching.")
     save_frame.grid(row=1, sticky='SE')
 
     return tab
@@ -439,6 +477,7 @@ def features_tab(parent):
     row = 0
     for key in launcher.AVAILABLE_FEATURES:
         check = ttk.Checkbutton(main_frame.scrollable_frame, command=update_features, text=key)
+        check.tooltip = ToolTip(check, text=f"Check this if you want {key} to be enabled.")
         check.pack(padx=6, pady=6, anchor='w')
         feature_widgets[key] = check
 
@@ -448,6 +487,7 @@ def features_tab(parent):
 
     save_frame = ttk.Frame(tab)
     save_button = ttk.Button(save_frame, text='Save', command=save)
+    save_button.tooltip = ToolTip(save_button, text="Save your options before launching.")
     save_button.pack(side=RIGHT, anchor=S)
     save_frame.grid(row=1, sticky='SE')
 
@@ -470,6 +510,7 @@ def multiplayer_tab(parent):
     current_ip = StringVar(main_frame)
     current_ip.trace('w', lambda *args: update_proxy())
     ip = ttk.Entry(main_frame, width=24, textvariable=current_ip)
+    ip.tooltip = ToolTip(ip, text="This is the IP of a multiplayer server.")
     ip.grid(row=0, column=1, padx=6, pady=6, sticky='EW')
 
     port_label = ttk.Label(main_frame, text='Port:')
@@ -477,12 +518,14 @@ def multiplayer_tab(parent):
     current_port = StringVar(main_frame)
     current_port.trace('w', lambda *args: update_proxy())
     port = ttk.Entry(main_frame, width=24, textvariable=current_port)
+    port.tooltip = ToolTip(port, text="Set the port.")
     port.grid(row=1, column=1, padx=6, pady=6, sticky='EW')
 
     main_frame.grid(row=0, sticky='NEW')
 
     save_frame = ttk.Frame(tab)
     save_button = ttk.Button(save_frame, text='Save', command=save)
+    save_button.tooltip = ToolTip(save_button, text="Save your options before launching.")
     save_button.pack(side=RIGHT, anchor=S)
     save_frame.grid(row=1, sticky='SE')
 
@@ -538,7 +581,7 @@ def main():
     window.resizable(True, True)
 
     # Set icon in taskbar
-    window.iconphoto(True, PhotoImage(file="/usr/share/pixmap/mcpil.png"))
+    window.iconphoto(True, PhotoImage(file="/usr/share/pixmaps/mcpil.png"))
 
     tabs = ttk.Notebook(window)
     tabs.add(play_tab(tabs), text='Play')
