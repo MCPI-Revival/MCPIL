@@ -20,7 +20,10 @@
 	<img src="https://i.imgur.com/H9LLI0h.png" alt="screenshot"></img>
 </p>
 
-> This is a rewrite of the original [MCPIL](https://github.com/MCPI-Devs/MCPIL-Old) project meant to be less fragile and more compatible.
+> This is a rewrite of the original [MCPIL](https://github.com/MCPI-Devs/MCPIL-Legacy) project meant to be less fragile and more compatible.
+
+## ⚠️ Deprecation notice
+This version of the Launcher is deprecated, and won't work with MCPI-Reborn 2.0. Please use [gMCPIL](https://github.com/MCPI-Revival/gMCPIL) or [jMCPIL](https://github.com/MCPI-Revival/jMCPIL) instead.
 
 ## Getting started
 
